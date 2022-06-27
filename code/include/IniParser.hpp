@@ -2,8 +2,8 @@
 // Created by cheily on 17.06.2022.
 //
 
-#ifndef INILIB2_INIPARSER_HPP
-#define INILIB2_INIPARSER_HPP
+#ifndef INILIB_INIPARSER_HPP
+#define INILIB_INIPARSER_HPP
 
 #include <regex>
 #include <fstream>
@@ -17,7 +17,7 @@ private:
 
     //patterns
     std::string comment = ".*[#;].*";
-    std::string entry = ".+[=:].*";
+    std::string entry = "[^=:;#]+([=:].*)?";    //anything but reserved signs, followed by an optional assignment and value
     std::string section = R"(\[[\w\d\s"']+\])";
 
     /**
@@ -58,4 +58,4 @@ public:
 };
 
 
-#endif //INILIB2_INIPARSER_HPP
+#endif //INILIB_INIPARSER_HPP

@@ -2,8 +2,8 @@
 // Created by cheily on 11.06.2022.
 //
 
-#ifndef INILIB2_INISECTION_HPP
-#define INILIB2_INISECTION_HPP
+#ifndef INILIB_INISECTION_HPP
+#define INILIB_INISECTION_HPP
 
 #include <string>
 #include <memory>
@@ -33,6 +33,30 @@ public:
      */
     IniSection(IniSection && rhs) noexcept;
 
+
+    /**
+     * @returns the pointer to the parent node. nullptr if ran from global section
+     */
+    [[nodiscard]]
+    auto getParent() const -> IniSection *;
+
+    /**
+     * @returns size of the underlying collections combined
+     */
+     [[nodiscard]]
+     auto size() const -> size_t;
+
+    /**
+     * @returns true if there is no specified parent node
+     */
+     [[nodiscard]]
+     auto isRoot() -> bool;
+
+     /**
+      * @returns true if there are no specified children nodes
+      */
+      [[nodiscard]]
+      auto isLeaf() -> bool;
 
     /**
      * Gets value by key
@@ -76,4 +100,4 @@ public:
 };
 
 
-#endif //INILIB2_INISECTION_HPP
+#endif //INILIB_INISECTION_HPP

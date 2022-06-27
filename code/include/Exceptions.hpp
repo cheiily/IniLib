@@ -2,8 +2,8 @@
 // Created by cheily on 17.06.2022.
 //
 
-#ifndef INILIB2_EXCEPTIONS_HPP
-#define INILIB2_EXCEPTIONS_HPP
+#ifndef INILIB_EXCEPTIONS_HPP
+#define INILIB_EXCEPTIONS_HPP
 
 #define quote(x) #x
 
@@ -28,4 +28,4 @@ public:
 
 
 
-#endif //INILIB2_EXCEPTIONS_HPP
+#endif //INILIB_EXCEPTIONS_HPP

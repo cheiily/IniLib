@@ -8,6 +8,23 @@ IniSection::IniSection(IniSection * parent) : parent(parent) {}
 
 IniSection::IniSection(IniSection && rhs)  noexcept : entries(std::move(rhs.entries)), parent(rhs.parent), subsections(std::move(rhs.subsections)) {}
 
+
+auto IniSection::getParent() const -> IniSection * {
+    return parent;
+}
+
+auto IniSection::size() const -> size_t {
+    return entries.size() + subsections.size();
+}
+
+auto IniSection::isRoot() -> bool {
+    return parent == nullptr;
+}
+
+auto IniSection::isLeaf() -> bool {
+    return subsections.empty();
+}
+
 auto IniSection::get(const std::string & key) const noexcept -> std::string {
     try {
         return entries.at(key);

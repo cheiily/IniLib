@@ -23,7 +23,8 @@ auto IniParser::split(const std::string & str) -> std::pair<std::string, std::st
 auto IniParser::split(const std::string & str, const char * c) -> std::pair<std::string, std::string> {
     std::string left, right;
     left = str.substr(0, str.find_first_of(c));
-    right = str.substr(str.find_last_of(c) + 1);
+    int f = str.find_last_of(c);
+    right = (f == std::string::npos) ? "" : str.substr(f + 1);
 
     return {left, right};
 }
@@ -40,14 +41,14 @@ auto IniParser::parse(const std::string & path) -> std::unique_ptr<IniSection> {
 
     auto global = std::make_unique<IniSection>(nullptr);
 
-    std::unique_ptr<IniSection> * temp = nullptr;
+    std::unique_ptr<IniSection> * temp = &global;
     std::string line;
 
     while (std::getline(file, line)) {
         trim(line);
 
         if (std::regex_match(line, rcomment)) {
-            if ( (trim( line = split(line, "#;").first) ).empty() ) continue;
+            if ( (trim( line = split(line, "#;").first) ).empty() ) continue;   //assign the part before comment token to line, go to next line if it's empty, continue with the assigned value otherwise
         }
 
         if (std::regex_match(line, rsection)) {
@@ -64,9 +65,7 @@ auto IniParser::parse(const std::string & path) -> std::unique_ptr<IniSection> {
 
             if (pair.first.empty()) throw EmptyIdentifierException(EmptyIdentifierException::KEY);
 
-            if (temp == nullptr) {
-                global->put(pair.first, pair.second);
-            } else (*temp)->put(pair.first, pair.second);
+            (*temp)->put(pair.first, pair.second);
         }
 
     }

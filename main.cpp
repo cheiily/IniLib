@@ -4,7 +4,8 @@
 using namespace std;
 
 int main() {
-    string path = R"(D:\OneDrive - Politechnika\CLionProjects\IniLib\samples\in\sample1.ini)";
+    string path = "..\\samples\\in\\sample1.ini";
+//    string path = R"(D:\OneDrive - Politechnika\CLionProjects\IniLib\samples\in\sample1.ini)";
     IniParser parser;
     auto result = parser.parse(path);
 
@@ -37,6 +38,7 @@ int main() {
     cout << "sub2sk1 = " << section2->get("sectionkey1") << endl;
     cout << "sub2sk3 = " << section2->get("sectionkey3") << endl;
     cout << "sub2gk1 = " << section2->get("globalkey1") << endl;
+
 
     return EXIT_SUCCESS;
 }
