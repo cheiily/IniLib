@@ -49,11 +49,11 @@ auto IniSection::getSection(const std::string & key) const -> IniSection * {
     }
 }
 
-auto IniSection::makeSection(const std::string & key, IniSection * parent) -> std::unique_ptr<IniSection> & {
-    return subsections[key] = std::make_unique<IniSection>(parent);
+auto IniSection::makeSection(const std::string & key, IniSection * parent) -> IniSection * {
+    return (subsections[key] = std::make_unique<IniSection>(parent)).get();
 }
 
-auto IniSection::putSection(const std::string & key, IniSection & section) -> std::unique_ptr<IniSection> & {
-    return (subsections[key] = std::make_unique<IniSection>(std::move(section)));
+auto IniSection::putSection(const std::string & key, IniSection & section) -> IniSection * {
+    return (subsections[key] = std::make_unique<IniSection>(std::move(section))).get();
 }
 

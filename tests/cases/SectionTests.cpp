@@ -56,7 +56,7 @@ BOOST_AUTO_TEST_SUITE(General)
 
         BOOST_AUTO_TEST_CASE(MakeSection) {
             IniSection super(nullptr);
-            IniSection * sub = super.makeSection("Subsection", &super).get();
+            IniSection * sub = super.makeSection("Subsection", &super);
             BOOST_TEST(super.getSection("Subsection") == sub);
             BOOST_TEST(sub->getParent() == &super);
             BOOST_TEST(sub->isLeaf());
@@ -67,7 +67,7 @@ BOOST_AUTO_TEST_SUITE(General)
             IniSection super(nullptr);
             IniSection sub(&super);
             sub.makeSection("Dummy", &sub);
-            IniSection * putSub = super.putSection("Subsection", sub).get();
+            IniSection * putSub = super.putSection("Subsection", sub);
             BOOST_TEST(sub.isLeaf());
             BOOST_TEST(super.isRoot());
             BOOST_TEST(!putSub->isLeaf());

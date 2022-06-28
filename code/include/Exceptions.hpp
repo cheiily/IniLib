@@ -17,13 +17,13 @@ public:
 class EmptyIdentifierException : public std::logic_error {
 public:
     enum IDENTIFIER {
+        SUBSECTION,
         SECTION,
         KEY
     };
 
     explicit EmptyIdentifierException(IDENTIFIER identifier) : std::logic_error(std::string("Identifier empty. Type: ") + quote(identifier)) {}
 };
-
 
 
 

@@ -86,16 +86,16 @@ public:
 
     /**
      * Creates a new empty subsection.
-     * @returns a reference to the created unique_ptr inside the map
+     * @returns a raw pointer to the newly created subsection.
      */
-    auto makeSection(const std::string & key, IniSection * parent) -> std::unique_ptr<IniSection> &;
+    auto makeSection(const std::string & key, IniSection * parent) -> IniSection *;
 
     /**
-     * Creates a new unique_ptr from the existing section into the subsections map and returns a reference to it
+     * Creates a new unique_ptr from the existing section into the subsections map and puts it in the subsection map.
      * @warning The new section is created via the move-ctor. Passed object will not contain its previous data.
-     * @returns a reference to the created unique_ptr from within the map
+     * @returns a raw pointer to the created section.
      */
-    auto putSection(const std::string & key, IniSection & section) -> std::unique_ptr<IniSection> &;
+    auto putSection(const std::string & key, IniSection & section) -> IniSection *;
 
 };
 
