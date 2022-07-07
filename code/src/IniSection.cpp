@@ -49,8 +49,8 @@ auto IniSection::getSection(const std::string & key) const -> IniSection * {
     }
 }
 
-auto IniSection::makeSection(const std::string & key, IniSection * parent) -> IniSection * {
-    return (subsections[key] = std::make_unique<IniSection>(parent)).get();
+auto IniSection::makeSection(const std::string & key) -> IniSection * {
+    return (subsections[key] = std::make_unique<IniSection>(this)).get();
 }
 
 auto IniSection::putSection(const std::string & key, IniSection & section) -> IniSection * {

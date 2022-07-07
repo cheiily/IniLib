@@ -25,6 +25,17 @@ public:
     explicit EmptyIdentifierException(IDENTIFIER identifier) : std::logic_error(std::string("Identifier empty. Type: ") + quote(identifier)) {}
 };
 
+class SectionNotFoundException : public std::logic_error {
+public:
+    explicit SectionNotFoundException(const std::string & section) : std::logic_error(std::string("Section not found: ") + section) {}
+};
+
+//To be used in incomplete features like __GLOBAL__ before config rollout
+class FeatureIncompleteException : public std::logic_error {
+public:
+    explicit FeatureIncompleteException() : std::logic_error("This feature is still in production. "
+                                                             "Please refrain from using it before its full rollout. Or turn off this warning via parser config (in the future).") {}
+};
 
 
 

@@ -1,11 +1,11 @@
 #include <boost/test/unit_test.hpp>
 #include "../../code/include/IniParser.hpp"
 
-BOOST_AUTO_TEST_SUITE(ParserTest1_Simple)
+BOOST_AUTO_TEST_SUITE(ParserCoreTests)
 
     BOOST_AUTO_TEST_CASE(GlobalEntries) {
         IniParser parser;
-        auto result = parser.parse(R"(..\tests\ini\in\test1\globalEntries.ini)");
+        auto result = parser.parse(R"(..\tests\ini\in\test1_core\globalEntries.ini)");
         BOOST_TEST(result->size() == 7);
         BOOST_TEST(result->get("entry2") == "value2");
         BOOST_TEST(result->get("entry3") == "value3");
@@ -16,10 +16,9 @@ BOOST_AUTO_TEST_SUITE(ParserTest1_Simple)
         BOOST_TEST(result->get("empty 3") == "");
     }
 
-
-    BOOST_AUTO_TEST_CASE(sections) {
+    BOOST_AUTO_TEST_CASE(SectionsParsingTests) {
         IniParser parser;
-        auto result = parser.parse(R"(..\tests\ini\in\test1\sections.ini)");
+        auto result = parser.parse(R"(..\tests\ini\in\test1_core\sections.ini)");
         BOOST_TEST(result->size() == 6);
 
         BOOST_TEST_REQUIRE(result->getSection("section1") != nullptr);
@@ -50,9 +49,9 @@ BOOST_AUTO_TEST_SUITE(ParserTest1_Simple)
 
     }
 
-    BOOST_AUTO_TEST_CASE(Comments) {
+    BOOST_AUTO_TEST_CASE(CommentsParsingTests) {
         IniParser parser;
-        auto result = parser.parse(R"(..\tests\ini\in\test1\comments.ini)");
+        auto result = parser.parse(R"(..\tests\ini\in\test1_core\comments.ini)");
 
         BOOST_TEST(result->size() == 2);
         BOOST_TEST(result->get("glob") == "");
@@ -67,7 +66,7 @@ BOOST_AUTO_TEST_SUITE(ParserTest1_Simple)
 
     BOOST_AUTO_TEST_CASE(SampleRun1) {
         IniParser parser;
-        auto result = parser.parse(R"(..\tests\ini\in\test1\sample1.ini)");
+        auto result = parser.parse(R"(..\tests\ini\in\test1_core\sample1.ini)");
 
         BOOST_TEST(result->size() == 5);
         BOOST_TEST(result->get("globalkey1") == "globalvalue1");

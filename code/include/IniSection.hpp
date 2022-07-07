@@ -85,10 +85,10 @@ public:
     auto getSection(const std::string & key) const -> IniSection *;
 
     /**
-     * Creates a new empty subsection.
+     * Creates a new empty subsection with <code>this</code> as its parent section.
      * @returns a raw pointer to the newly created subsection.
      */
-    auto makeSection(const std::string & key, IniSection * parent) -> IniSection *;
+    auto makeSection(const std::string & key) -> IniSection *;
 
     /**
      * Creates a new unique_ptr from the existing section into the subsections map and puts it in the subsection map.

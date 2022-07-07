@@ -1,7 +1,7 @@
 #include "../../code/include/IniSection.hpp"
 #include <boost/test/unit_test.hpp>
 
-BOOST_AUTO_TEST_SUITE(General)
+BOOST_AUTO_TEST_SUITE(SectionGeneralTests)
 
     BOOST_AUTO_TEST_SUITE(Ctors)
 
@@ -52,11 +52,11 @@ BOOST_AUTO_TEST_SUITE(General)
     BOOST_AUTO_TEST_SUITE_END() // Ctors
 
 
-    BOOST_AUTO_TEST_SUITE(SubsectionCreation)
+    BOOST_AUTO_TEST_SUITE(SubsectionCreationTests)
 
         BOOST_AUTO_TEST_CASE(MakeSection) {
             IniSection super(nullptr);
-            IniSection * sub = super.makeSection("Subsection", &super);
+            IniSection * sub = super.makeSection("Subsection");
             BOOST_TEST(super.getSection("Subsection") == sub);
             BOOST_TEST(sub->getParent() == &super);
             BOOST_TEST(sub->isLeaf());
@@ -66,7 +66,7 @@ BOOST_AUTO_TEST_SUITE(General)
         BOOST_AUTO_TEST_CASE(PutSection) {
             IniSection super(nullptr);
             IniSection sub(&super);
-            sub.makeSection("Dummy", &sub);
+            sub.makeSection("Dummy");
             IniSection * putSub = super.putSection("Subsection", sub);
             BOOST_TEST(sub.isLeaf());
             BOOST_TEST(super.isRoot());
@@ -83,7 +83,7 @@ BOOST_AUTO_TEST_SUITE_END() // General
 
 
 
-BOOST_AUTO_TEST_SUITE(StringEntrySection)
+BOOST_AUTO_TEST_SUITE(StringEntrySectionTests)
 
     BOOST_AUTO_TEST_SUITE(Getter)
 

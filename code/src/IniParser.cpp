@@ -2,6 +2,7 @@
 // Created by cheily on 17.06.2022.
 //
 
+#include <cassert>
 #include "../include/IniParser.hpp"
 
 auto IniParser::trim(std::string & str) -> std::string & {
@@ -37,6 +38,31 @@ auto IniParser::climbHierarchy(IniSection * currentContext, int level) -> IniSec
     return currentContext;
 }
 
+auto IniParser::separate(const std::string & str) -> std::vector<std::string> {
+    return separate(str, ".");
+}
+
+auto IniParser::separate(const std::string & str, const char * c) -> std::vector<std::string> {
+    std::string buff;
+    std::vector<std::string> result;
+    std::string cp = str;
+    std::basic_string<char>::size_type pos;
+
+    while (cp.length() > 0) {
+        buff = cp.substr(0, cp.find_first_of(c));
+        result.push_back(buff);
+
+        pos = cp.find_first_of(c);
+        if (pos == std::string::npos) break;        //If no longer find any delims, break the loop as no more sections are expected
+
+        cp = cp.substr(pos);                        //remove the part before first delim
+        cp = cp.substr(cp.find_first_not_of(c));    //remove the first delim part
+
+    }
+
+    return result;
+}
+
 
 IniParser::IniParser() : rcomment(comment), rentry(entry), rsection(section), rsubsection(subsection) {}
 
@@ -62,24 +88,32 @@ auto IniParser::parse(const std::string & path) -> std::unique_ptr<IniSection> {
             trim(line);
             if (line.empty()) throw EmptyIdentifierException(EmptyIdentifierException::SECTION);
 
-            temp = global->makeSection(line, global.get());
+            temp = global->makeSection(line);
 
         } else if (std::regex_match(line, rsubsection)) {
             trimSection(line);                          //matching rsubsection means the text inside brackts will be at least 2 characters long
             if (line[line.length() - 1] == '.') throw EmptyIdentifierException(EmptyIdentifierException::SUBSECTION);
 
-            auto pair = split(line, ".");
+            auto result = separate(line);
+            assert(result.size() >= 2);;
 
-            if (pair.first == "") {
-                // TODO [..anotherBranch.child]
-                int lv = (int) line.find_first_not_of('.') - 1;
-                auto parent = climbHierarchy(temp, lv);
-                temp = parent->makeSection(pair.second, parent);
-
+            int i = 0;
+            IniSection * t;
+            if (result[0].empty()) {                    //matches if string begins with n dots, in which case assigns parent to the appropriate node
+                ++i;
+                t = climbHierarchy(temp, line.find_first_not_of('.') - 1);
             } else {
-                //TODO multi . operators
+                t = global.get();
+                if (result[0] == "__GLOBAL__") throw FeatureIncompleteException();
+                if (result[0] == "__GLOBAL__") ++i;
             }
-
+            std::string read;
+            for (; i < result.size() - 1; ++i) {
+                read = result[i];
+                t = t->getSection(read);
+                if (t == nullptr) throw SectionNotFoundException(read);
+            }
+            temp = t->makeSection(result.back());
 
         } else if (std::regex_match(line, rentry)) {
             auto pair = split(line);
