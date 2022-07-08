@@ -17,7 +17,7 @@ set(SOURCE_FILES
         code/include/Exceptions.hpp)
 set(TEST_FILES
         tests/master.cpp
-        tests/scenarios/SectionTests.cpp tests/scenarios/ParserCoreTest.cpp tests/scenarios/ParserNestingTests.cpp)
+        tests/scenarios/SectionTests.cpp tests/scenarios/ParserCore/ParserCoreTest.cpp tests/scenarios/ParserCore/ParserNestingTests.cpp tests/scenarios/ParserCore/ParserConfigHandlingTests.cpp)
 
 add_executable(IniLib main.cpp ${SOURCE_FILES})
 add_executable(IniLib_Check tests/master.cpp ${SOURCE_FILES} ${TEST_FILES})

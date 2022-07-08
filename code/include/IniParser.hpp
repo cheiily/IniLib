@@ -10,8 +10,13 @@
 #include "IniSection.hpp"
 #include "Exceptions.hpp"
 
+struct ParserConfig {
+    bool mergeDuplicateSections = true;
+};
+
 class IniParser {
 private:
+    ParserConfig config;
 
     //patterns
     std::string comment = ".*[#;].*";
@@ -67,11 +72,27 @@ private:
      */
     static auto climbHierarchy(IniSection * currentContext, int level) -> IniSection *;
 
+    /**
+     * Checks if the passed string is a reserved word
+     */
+    static auto isReservedWord(const std::string & str) -> bool;
+
 public:
     /**
      * Ctor initializing the regex patterns from respective strings
      */
     IniParser();
+
+    /**
+     * @returns <code>ParserConfig</code> object containing the current parser configuration
+     */
+    [[nodiscard]]
+    auto getConfig() const -> const ParserConfig *;
+
+    /**
+     * Loads the given config struct as the current parser configuration
+     */
+    void loadConfig(const ParserConfig & config);
 
     /**
      * Attempts to parse the file via the passed path. <br>

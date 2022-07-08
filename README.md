@@ -8,6 +8,7 @@ When completed it will contain such features as: <ul>
   <li> Default-type deduced fields, able to parse ints, doubles, booleans and chars and freely convert between them </li>
   <li> Parser config to determine the default behavior of the parser, also recognizable from within the parsed file </li>
   <li> An object factory to create and write data into an .ini file. </li>
+  <li> TOML-like array keys </li>
 </ul>
 
 Currently all documentation is contained within the header files.

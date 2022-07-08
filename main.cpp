@@ -5,7 +5,6 @@ using namespace std;
 
 int main() {
     string path = "..\\samples\\in\\sample1.ini";
-//    string path = R"(D:\OneDrive - Politechnika\CLionProjects\IniLib\samples\in\sample1.ini)";
     IniParser parser;
     auto result = parser.parse(path);
 

@@ -30,14 +30,6 @@ auto IniParser::split(const std::string & str, const char * c) -> std::pair<std:
     return {left, right};
 }
 
-auto IniParser::climbHierarchy(IniSection * currentContext, int level) -> IniSection * {
-    while (level > 0 && currentContext->getParent() != nullptr) {
-        currentContext = currentContext->getParent();
-        --level;
-    }
-    return currentContext;
-}
-
 auto IniParser::separate(const std::string & str) -> std::vector<std::string> {
     return separate(str, ".");
 }
@@ -63,8 +55,31 @@ auto IniParser::separate(const std::string & str, const char * c) -> std::vector
     return result;
 }
 
+auto IniParser::climbHierarchy(IniSection * currentContext, int level) -> IniSection * {
+    while (level > 0 && currentContext->getParent() != nullptr) {
+        currentContext = currentContext->getParent();
+        --level;
+    }
+    return currentContext;
+}
 
-IniParser::IniParser() : rcomment(comment), rentry(entry), rsection(section), rsubsection(subsection) {}
+auto IniParser::isReservedWord(const std::string & str) -> bool {
+    std::string reservedWords[] {"__GLOBAL__", "__CONFIG__"};
+
+    for (const auto & w : reservedWords) if (str == w) return true;
+    return false;
+}
+
+
+IniParser::IniParser() : rcomment(comment), rentry(entry), rsection(section), rsubsection(subsection), config({}) {}
+
+auto IniParser::getConfig() const -> const ParserConfig * {
+    return &config;
+}
+
+void IniParser::loadConfig(const ParserConfig & config) {
+    this->config = config;
+}
 
 auto IniParser::parse(const std::string & path) -> std::unique_ptr<IniSection> {
     std::ifstream file(path);
@@ -87,6 +102,7 @@ auto IniParser::parse(const std::string & path) -> std::unique_ptr<IniSection> {
             trimSection(line);
             trim(line);
             if (line.empty()) throw EmptyIdentifierException(EmptyIdentifierException::SECTION);
+
 
             temp = global->makeSection(line);
 

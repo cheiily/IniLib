@@ -1,9 +1,9 @@
 #include <boost/test/unit_test.hpp>
-#include "../../code/include/IniParser.hpp"
+#include "../../../code/include/IniParser.hpp"
 
 BOOST_AUTO_TEST_SUITE(ParserCoreTests)
 
-    BOOST_AUTO_TEST_CASE(GlobalEntries) {
+    BOOST_AUTO_TEST_CASE(GlobalEntriesParsingTests) {
         IniParser parser;
         auto result = parser.parse(R"(..\tests\ini\in\test1_core\globalEntries.ini)");
         BOOST_TEST(result->size() == 7);
@@ -64,7 +64,7 @@ BOOST_AUTO_TEST_SUITE(ParserCoreTests)
 
     }
 
-    BOOST_AUTO_TEST_CASE(SampleRun1) {
+    BOOST_AUTO_TEST_CASE(ParserSampleRun1) {
         IniParser parser;
         auto result = parser.parse(R"(..\tests\ini\in\test1_core\sample1.ini)");
 
@@ -85,5 +85,4 @@ BOOST_AUTO_TEST_SUITE(ParserCoreTests)
     }
 
 
-
-BOOST_AUTO_TEST_SUITE_END()
+BOOST_AUTO_TEST_SUITE_END() // ParserCoreTests
